@@ -1,15 +1,16 @@
-const usermodel = require('../Modules/user.model');
+const userModel = require('../Modules/user.model');
 const jwt= require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
+const balckListModel = require('../Modules/blacklist');
 
 
  
 async function registerUser  (req,res){
     const {username,email,password} = req.body
 
-    const isUserExist = await usermodel.findOne({
+    const isUserExist = await userModel.findOne({
         $or:[{username:username},
-            {email:email }
+            {email:email }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
    
         ]
     })
@@ -22,7 +23,7 @@ async function registerUser  (req,res){
 
     const hash = bcrypt.hashSync(password,10);
 
-    const user = await usermodel.create({
+    const user = await userModel.create({
         username,
         email,
         password:hash
@@ -45,11 +46,11 @@ return res.status(201).json({
 
 async function loginUser (req,res){
     const {username,email,password} = req.body
-    const isUserRegisterd = await usermodel.findOne({
+    const isUserRegisterd = await userModel.findOne({
         $or:[{username:username},
             {email:email}
         ]
-    });
+    }).select("+password")
 
     if(!isUserRegisterd){
        return  res.status(401).json({
@@ -73,6 +74,16 @@ async function loginUser (req,res){
 
    res.cookie("token",token);
 
+   const isTokenBlaclkListed = await balckListModel.findOne({
+    token
+   });
+
+   if(isTokenBlaclkListed){
+    return res.status(401).json({
+       message: "token is balcklsted"
+    })
+   }
+
    return res.status(200).json({
     messgae:"User Login"
    })
@@ -90,8 +101,20 @@ async function getMe(req, res) {
     })
 }
 
+async function logoutUser (req,res){
+    const token = req.cookies.token
+    res.clearCookie("token");
+    await balckListModel.create({
+        token
+    })
+    res.status(201).json({
+        message:"Logout Sucessfull"
+    })
+}
+
 module.exports={
     registerUser,
     loginUser,
-    getMe
+    getMe,
+    logoutUser
 }
