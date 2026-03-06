@@ -47,14 +47,14 @@ return res.status(201).json({
 async function loginUser (req,res){
     const {username,email,password} = req.body
     const isUserRegisterd = await userModel.findOne({
-        $or:[{username:username},
+        $or:[{username:username},       
             {email:email}
         ]
     }).select("+password")
 
     if(!isUserRegisterd){
        return  res.status(401).json({
-        messge:"Not Login with this email id or username"
+        messge:"Not Login with this email id or username" 
 
         })
     }
@@ -80,7 +80,7 @@ async function loginUser (req,res){
 
    if(isTokenBlaclkListed){
     return res.status(401).json({
-       message: "token is balcklsted"
+       message: "token is balcklisted"
     })
    }
 
