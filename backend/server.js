@@ -1,11 +1,13 @@
 require ('dotenv').config()
 const app = require ('./src/app');
-const connectToDb = require('./src/config/ConnectDb')
+const connectToDb = require('./src/config/ConnectDb');
+// const redis = require ('./src/config/cache')
 
 
 
 
 connectToDb();
+// redis;
 app.listen(3000,()=>{
     console.log("server is running on port number 30000");
     

@@ -2,6 +2,7 @@ const userModel = require('../Modules/user.model');
 const jwt= require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const balckListModel = require('../Modules/blacklist');
+const redis = require ('../config/cache')
 
 
  
@@ -101,15 +102,20 @@ async function getMe(req, res) {
     })
 }
 
-async function logoutUser (req,res){
-    const token = req.cookies.token
+async function logoutUser(req,res){
+    const token = req.cookies.token;
+    if(!token){
+        return res.status(400).json({
+            message:"Token not Provided"
+        })
+    }
+    await redis.set(token,Date.now().toString(),"EX",60*60);
+
     res.clearCookie("token");
-    await balckListModel.create({
-        token
-    })
-    res.status(201).json({
-        message:"Logout Sucessfull"
-    })
+
+     return res.status(200).json({
+        message:"user logeedOut"
+     });
 }
 
 module.exports={
