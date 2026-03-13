@@ -1,0 +1,123 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  font-family: "Poppins", sans-serif;
+  background: radial-gradient(circle at top,#1a1a2e,#0f0f13);
+  color:white;
+}
+
+/* container */
+
+.form-cont{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  height:100vh;
+}
+
+/* card */
+
+.form{
+  width:380px;
+  padding:40px;
+  background:#18181f;
+  border-radius:20px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:25px;
+
+  box-shadow:
+  0 0 30px rgba(124,92,255,0.2);
+
+  animation: fadeUp 0.7s ease;
+}
+
+/* title */
+
+.title{
+  font-size:32px;
+  font-weight:600;
+  background: linear-gradient(45deg,#7c5cff,#ff4ecd);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+/* form */
+
+form{
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+  width:100%;
+}
+
+form input{
+  padding:14px;
+  border:none;
+  border-radius:10px;
+  background:#23232c;
+  color:white;
+  outline:none;
+  transition:0.3s;
+}
+
+form input:focus{
+  box-shadow:0 0 10px #7c5cff;
+}
+
+/* button */
+
+form button{
+  padding:14px;
+  border:none;
+  border-radius:12px;
+
+  background:linear-gradient(45deg,#7c5cff,#ff4ecd);
+
+  color:white;
+  font-size:16px;
+  font-weight:600;
+
+  cursor:pointer;
+  transition:0.3s;
+}
+
+form button:hover{
+  transform:translateY(-3px);
+  box-shadow:0 0 20px rgba(124,92,255,0.6);
+}
+
+/* switch */
+
+.switch{
+  font-size:14px;
+  opacity:0.8;
+}
+
+.switch a{
+  color:#ff4ecd;
+  text-decoration:none;
+  font-weight:600;
+}
+
+.switch a:hover{
+  text-decoration:underline;
+}
+
+/* animation */
+
+@keyframes fadeUp{
+  from{
+    opacity:0;
+    transform:translateY(40px);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0);
+  }
+}

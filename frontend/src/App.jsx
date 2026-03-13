@@ -1,12 +1,11 @@
-import { useState } from 'react'
-
-import FaceExpression from './features/expression/components/FaceExpression'
-
+import { RouterProvider } from "react-router";
+import{router}from "./features/app.routes.jsx"
 function App() {
-  const [count, setCount] = useState(0)
+ 
 
   return (
-    <FaceExpression/>
+    <RouterProvider router={router}/>
+  
   )
 }
 
