@@ -1,60 +1,48 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import "./Styles/login.css";
+import React, { useState } from 'react'
+import "../Styles/login.scss"
+import FormGroup from '../components/Formgroup'
+import { Link } from 'react-router'
+import { useAuth } from '../hooks/useAuth'
+import { useNavigate } from 'react-router'
 
 const Login = () => {
 
-  const [formData, setFormData] = useState({
-    username: "",
-    password: ""
-  });
+    const { loading, handleLogin } = useAuth()
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+    const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
-  };
+    const [ email, setEmail ] = useState("")
+    const [ password, setPassword ] = useState("")
 
-  return (
-    <div className="form-cont">
-      <div className="form">
+    async function handleSubmit(e) {
+        e.preventDefault()
+        await handleLogin({ email, password })
+        navigate("/")
+    }
 
-        <h1 className="title">Login</h1>
+    return (
+        <main className="login-page">
+            <div className="form-container">
+                <h1>Login</h1>
+                <form onSubmit={handleSubmit} >
+                    <FormGroup
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        label="Email"
+                        placeholder="Enter your email"
+                    />
+                    <FormGroup
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        label="Password"
+                        placeholder="Enter your password"
+                    />
+                    <button className='button' type="submit">Login</button>
+                </form>
+                <p>Don't have an account? <Link to="/register">Register here</Link></p>
+            </div>
+        </main>
+    )
+}
 
-        <form onSubmit={handleSubmit}>
-
-          <input
-            type="text"
-            name="username"
-            placeholder="Enter Username"
-            onChange={handleChange}
-          />
-
-          <input
-            type="password"
-            name="password"
-            placeholder="Enter Password"
-            onChange={handleChange}
-          />
-
-          <button type="submit">Login</button>
-
-        </form>
-
-        <p className="switch">
-          Don't have an account?
-          <Link to="/register"> Register</Link>
-        </p>
-
-      </div>
-    </div>
-  );
-};
-
-export default Login; 
+export default Login
